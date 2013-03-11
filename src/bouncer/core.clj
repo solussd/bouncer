@@ -70,10 +70,10 @@ If you'd like to know more about the motivation behind `bouncer`, check the
             (cond
              (vector? sym-or-coll)
              (concat acc (build-multi-step key-or-vec sym-or-coll))
-             
+
              (list? sym-or-coll)
              (concat acc (build-multi-step key-or-vec [sym-or-coll]))
-             
+
              (is-validator-set? sym-or-coll)
              (concat acc (build-steps (merge-path key-or-vec
                                                   (var-get (h/resolve-or-same sym-or-coll)))))
@@ -110,11 +110,14 @@ If you'd like to know more about the motivation behind `bouncer`, check the
         {:keys [message] :or {message default-message-format}} (apply hash-map opts)
         pred-subject (get-in acc k)]
     (if (or (and optional (nil? pred-subject))
-            (not (empty? (get-in acc error-path)))
-            (apply pred pred-subject args))
+            (not (empty? (get-in acc error-path))))
       acc
-      (update-in acc error-path
-                 #(conj % (format message (name (peek k))))))))
+      (let [pred-result (apply pred pred-subject args)]
+        (let [[result errors] (if (vector? pred-result) pred-result [pred-result])]
+          (if result
+            acc
+            (update-in acc error-path
+                 #(conj % (format (if errors (str message ": " errors) message) (name (peek k)))))))))))
 
 (defn wrap-chain
   "Internal Use.

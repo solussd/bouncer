@@ -1,6 +1,6 @@
-(defproject bouncer "0.2.3-SNAPSHOT"
-  :description "A validation DSL for Clojure apps"
-  :url "http://github.com/leonardoborges/bouncer"
+(defproject solussd/bouncer "0.2.3-SNAPSHOT"
+  :description "A validation DSL for Clojure apps; forked from http://github.com/leonardoborges/bouncer"
+  :url "http://github.com/solussd/bouncer"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.5.0"]
@@ -9,4 +9,3 @@
   :profiles {:1.3 {:dependencies [[org.clojure/clojure "1.3.0"]]}
              :1.4 {:dependencies [[org.clojure/clojure "1.4.0"]]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.0-RC1"]]}})
-
